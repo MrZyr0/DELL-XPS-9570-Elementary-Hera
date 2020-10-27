@@ -5,6 +5,7 @@
 2. [Switching from one graphic card to the other](#how-to-switch-from-one-graphic-card-to-the-other)
 3. [Troubleshooting](#troubleshooting)
 
+---
 
 All informations, tips and tricks was gathered from:
 
@@ -30,14 +31,16 @@ Kudos and all the credits for things not related to my work go to developers and
  - ✅ Thunderbolt
 
 ### What doesn't work
- - ❌ Goodix Fingerprint sensor
+ - ❌ Goodix Fingerprint sensor (no driver)
+
+<br>
 
 ## Post-install script
 After install ElementaryOS 5 Hera **whithout install third party software** and setup your network connexion, execute the shell script of the repo.
 
-You can download it and save it on your USB installer key or use it directly with this command, thanks to `curl`:
+You can [download it](https://raw.githubusercontent.com/MrZyr0/DELL-XPS-9570-Elementary-Hera/master/post-install-script.sh) and save it on your USB installer key or use it directly with this command, thanks to `curl`:
 ```bash
-sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/JackHack96/dell-xps-9570-ubuntu-respin/master/xps-tweaks.sh)"
+sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/MrZyr0/DELL-XPS-9570-Elementary-Hera/master/post-install-script.sh)"
 ```
 
 If you want touchpad gestures using X11, check https://github.com/bulletmark/libinput-gestures or better https://github.com/iberianpig/fusuma.
