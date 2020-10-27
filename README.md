@@ -64,4 +64,4 @@ sudo prime-select nvidia
 
 ## Troubleshooting
 
-YOu can check the [wiki page](https://github.com/JackHack96/dell-xps-9570-ubuntu-respin/wiki/Troubleshooting) about the original repo.
+You can check the [wiki page](https://github.com/JackHack96/dell-xps-9570-ubuntu-respin/wiki/Troubleshooting) about the original repo.
