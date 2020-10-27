@@ -35,15 +35,22 @@ Kudos and all the credits for things not related to my work go to developers and
 
 <br>
 
-## Post-install script
-After install ElementaryOS 5 Hera **whithout install third party software** and setup your network connexion, execute the shell script of the repo.
+## Post-install script usage
+After install ElementaryOS 5 Hera **whithout install third party software** and setup your network connexion:
 
-You can [download it](https://raw.githubusercontent.com/MrZyr0/DELL-XPS-9570-Elementary-Hera/master/post-install-script.sh) and save it on your USB installer key or use it directly with this command, thanks to `curl`:
-```bash
-sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/MrZyr0/DELL-XPS-9570-Elementary-Hera/master/post-install-script.sh)"
-```
+1. Download the appropriate and update driver for the chipset: https://www.nvidia.com/Download/index.aspx
 
-If you want touchpad gestures using X11, check https://github.com/bulletmark/libinput-gestures or better https://github.com/iberianpig/fusuma.
+2. Download the repos as archive and extract it
+
+3. Copy move the driver in the archive folder
+
+4. Run the script with sudo and follow the guide.
+
+The script must be executed 3 times:
+1. One can be executed in your terminal
+2. The other two must be run without your desktop environment being launched.
+   To do this, press **CTRL** + **ALT** + **F1** on the login screen, log in and run the script a second time.
+3. The third time, simply clean up your system. This is optional but recommended
 
 ## How to switch from one graphic card to the other
 Because the Nvidia driver doesn't work perfectly, I recommend you to disable it when you don't need it. It will also save a little bit of battery.
