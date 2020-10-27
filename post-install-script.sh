@@ -1,9 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
 # Define colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-NC='\033[0m' # No Color
+BLUE='\e[96m'
+INVERT='\e[7minverted'
+NC='\033[0m\e[0m' # No Color
 
 release=$(lsb_release -c -s)
 
@@ -15,41 +17,42 @@ then
 fi
 
 # Check if the script is running as root
-if [ "$EUID" -ne 0 ]; then
+if [ "$EUID" -ne 0 ]
+then
     >&2 echo -e "${RED}Please run the script as root !${NC}"
     exit 2
 fi
 
 
 echo "You need to restart before install nvidia's properitary driver."
-read -p "Which run start ? (1 or 2) => " RUN
+read -p "Which run start ? (1 - 2 or 3) => " RUN
 
 if [ $RUN = '1' ]
 then
-    echo "[STEP 1] - Update system"
+    echo -e "${INVERT}[STEP 1] - Update system${NC}"
     sudo cp *.bin /lib/firmware/i915/
     sudo apt update -y
     sudo apt full-upgrade -y
 
 
-    echo "[STEP 2] - Install universe and proposed"
+    echo -e "${INVERT}[STEP 2] - Install universe and proposed${NC}"
     sudo apt install software-properties-common
     sudo add-apt-repository universe -y
     sudo apt full-upgrade -y
 
 
-    echo "[STEP 3] - Install power management tools"
+    echo -e "${INVERT}[STEP 3] - Install power management tools${NC}"
     sudo add-apt-repository -y ppa:linrunner/tlp
     sudo apt update -y
     sudo apt install thermald tlp tlp-rdw powertop -y
 
 
-    echo "[STEP 4] - Fix Sleep/Wake Bluetooth Bug"
+    echo -e "${INVERT}[STEP 4] - Fix Sleep/Wake Bluetooth Bug${NC}"
     sed -i '/RESTORE_DEVICE_STATE_ON_STARTUP/s/=.*/=1/' /etc/tlp.conf
     systemctl restart tlp
 
 
-    echo "[STEP 5] - Remove nvidia drivers"
+    echo -e "${INVERT}[STEP 5] - Remove nvidia drivers${NC}"
     sudo nvidia-uninstall
     sudo apt remove --purge nvidia* -y
     sudo apt remove --purge libnvidia* -y
@@ -57,7 +60,7 @@ then
     sudo apt autoclean -y
 
 
-    echo "[STEP 6] - Blacklist drivers"
+    echo -e "${INVERT}[STEP 6] - Blacklist drivers${NC}"
     sudo rm /etc/modprobe.d/blacklist-nvidia-nouveau.conf
     sudo bash -c "echo blacklist vga16fb >> /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
     sudo bash -c "echo blacklist rivafb >> /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
@@ -70,13 +73,13 @@ then
     sudo bash -c "echo alias lbm-nouveau off >> /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
 
 
-    echo "[STEP 7] - Disable Nouveau Kernel"
+    echo -e "${INVERT}[STEP 7] - Disable Nouveau Kernel${NC}"
     sudo bash -c "echo options nouveau modeset=0 | sudo tee -a /etc/modprobe.d/nouveau-kms.conf"
     sudo update-initramfs -u
 
 
-    echo "[STEP 8] - Restart"
-    echo "Restart the computer and run the script again on RUN 2 from prompt of login screen."
+    echo -e "${INVERT}[STEP 8] - Restart${NC}"
+    echo -e "${GREEN}Restart the computer and run the script again on RUN 2 from prompt of login screen.${NC}"
     echo "(Press CTRL + ALT + F1 before login)"
 fi
 
@@ -84,19 +87,19 @@ fi
 
 if [ $RUN = '2' ]
 then
-    echo "[STEP 1] - Stop lightdm"
+    echo -e "${INVERT}[STEP 1] - Stop lightdm${NC}"
     sudo service lightdm stop
 
 
-    echo "[STEP 2] - Enter in runlevel 3"
+    echo -e "${INVERT}[STEP 2] - Enter in runlevel 3${NC}"
     sudo init 3
 
 
-    echo "[STEP 4] - Install required dependencies"
+    echo -e "${INVERT}[STEP 4] - Install required dependencies${NC}"
     sudo apt install pkg-config libglvnd-core-dev libglvnd-dev libglvnd0 dkms fakeroot build-essential linux-headers-generic -y
 
 
-    echo "[STEP 4] - Run Nvidia's script"
+    echo -e "${INVERT}[STEP 4] - Run Nvidia's script${NC}"
     chmod +x NVIDIA-Linux-x86_64-455.28.run
     sudo ./NVIDIA-Linux-x86_64-455.28.run --dkms
     sudo apt install nvidia-prime
@@ -113,10 +116,10 @@ then
     sudo echo "options nvidia-drm modeset=1" >> /etc/modprobe.d/nvidia-drm.conf
 
 
-    echo "[MISC]"
+    echo -e "${INVERT}[MISC]${NC}"
 
     # Fix Audio Feedback/White Noise from Headphones on Battery Bug
-    echo -e "${GREEN}Do you wish to fix the headphone white noise on battery bug? (if you do not have this issue, there is no need to enable it) (may slightly impact battery life)${NC}"
+    echo -e "${BLUE}Do you wish to fix the headphone white noise on battery bug? (if you do not have this issue, there is no need to enable it) (may slightly impact battery life)${NC}"
     select yn in "Yes" "No"; do
         case $yn in
             Yes ) sed -i '/SOUND_POWER_SAVE_ON_BAT/s/=.*/=0/' /etc/tlp.conf; systemctl restart tlp; break;;
@@ -125,7 +128,7 @@ then
     done
 
     # Install codecs
-    echo -e "${GREEN}Do you wish to install video codecs for encoding and playing videos?${NC}"
+    echo -e "${BLUE}Do you wish to install video codecs for encoding and playing videos?${NC}"
     select yn in "Yes" "No"; do
         case $yn in
             Yes ) apt -y install ubuntu-restricted-extras va-driver-all vainfo libva2 gstreamer1.0-libav gstreamer1.0-vaapi; break;;
@@ -134,7 +137,7 @@ then
     done
 
     # Enable high quality audio
-    echo -e "${GREEN}Do you wish to enable high quality audio? (may impact battery life)${NC}"
+    echo -e "${BLUE}Do you wish to enable high quality audio? (may impact battery life)${NC}"
     select yn in "Yes" "No"; do
         case $yn in
             Yes ) echo "# This file is part of PulseAudio.
@@ -245,7 +248,7 @@ then
     # Tweak grub defaults
     GRUB_OPTIONS_VAR_NAME="GRUB_CMDLINE_LINUX_DEFAULT"
     GRUB_OPTIONS="quiet splash acpi_rev_override=1 acpi_osi=Linux nouveau.modeset=0 pcie_aspm=force drm.vblankoffdelay=1 scsi_mod.use_blk_mq=1 nouveau.runpm=0 mem_sleep_default=deep nvidia-drm.modeset=1"
-    echo -e "${GREEN}Do you wish to disable SPECTRE/Meltdown patches for performance?${NC}"
+    echo -e "${BLUE}Do you wish to disable SPECTRE/Meltdown patches for performance?${NC}"
     select yn in "Yes" "No"; do
         case $yn in
             Yes )
@@ -268,7 +271,7 @@ then
     fi
 
     # Ask for disabling fingerprint reader
-    echo -e "${GREEN}Do you wish to disable the fingerprint reader to save power (no linux driver is available for this device)?${NC}"
+    echo -e "${BLUE}Do you wish to disable the fingerprint reader to save power (no linux driver is available for this device)?${NC}"
     select yn in "Yes" "No"; do
         case $yn in
             Yes ) echo "# Disable fingerprint reader
@@ -278,18 +281,18 @@ then
     done
 
     echo -e "${GREEN}DONE !${NC}"
-    echo "Now reboot the computer. If DE didn't show up, press CTRL + ALT + F7."
+    echo -e "${RED}Now reboot the computer. If DE didn't show up, press CTRL + ALT + F7.${NC}"
 fi
 
 
 
 if [ $RUN = '3']
 then
-    echo "FINAL - Cleaning"
+    echo -e "${INVERT}FINAL - Cleaning${NC}"
     sudo apt update -y
     sudo apt full-upgrade -y
     sudo apt autoremove --purge -y
     sudo apt autoclean -y
     sudo prime-select intel
-    echo "Reboot your computer and that's it :)"
+    echo -e "${GREEN}Reboot your computer and that's it :)${NC}"
 fi
