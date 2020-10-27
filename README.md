@@ -32,6 +32,7 @@ Kudos and all the credits for things not related to my work go to developers and
 
 ### What doesn't work
  - ❌ Goodix Fingerprint sensor (no driver)
+      _Some read for this: https://developers.goodix.com/en/bbs/detail/2cc68cdf9f824e28b247f626c4a9374b & https://github.com/IDerr/Goodix92_
 
 <br>
 
