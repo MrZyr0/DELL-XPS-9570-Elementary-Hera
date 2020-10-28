@@ -43,7 +43,7 @@ After install ElementaryOS 5 Hera **whithout install third party software** and 
 
 2. Download the repos as archive and extract it
 
-3. Copy move the driver in the archive folder
+3. Move the driver in the archive folder and rename it `NVIDIA-Linux-driver.run`
 
 4. Run the script with sudo and follow the guide.
 
