@@ -5,7 +5,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 BLUE='\e[96m'
 INVERT='\e[7m'
-NC='\033[0m\e[0m' # No Color
+NC='\033[0m\e[0m' # Reset style
 
 release=$(lsb_release -c -s)
 
@@ -54,20 +54,18 @@ then
         case $yn in
             Yes ) sudo add-apt-repository -y ppa:linrunner/tlp
                   sudo apt update -y
-                  sudo apt install tlp -y #tlp-rdw
+                  sudo apt install tlp -y
                   sudo sed -i '/RESTORE_DEVICE_STATE_ON_STARTUP/s/=.*/=1/' /etc/tlp.conf
-                  sudo systemctl restart tlp; break;;
-            No ) break;;
-        esac
-    done
-
-
-    echo -e "\n${BLUE}Do you wish to install a GUI for TLP ?${NC}"
-    select yn in "Yes" "No"; do
-        case $yn in
-            Yes ) sudo add-apt-repository -y ppa:linuxuprising/apps
-                  sudo apt update -y
-                  sudo apt install tlpui -y; break;;
+                  sudo systemctl restart tlp
+                  echo -e "\n${BLUE}Do you wish to install a GUI for TLP ?${NC}"
+                  select yn in "Yes" "No"; do
+                      case $yn in
+                          Yes ) sudo add-apt-repository -y ppa:linuxuprising/apps
+                                sudo apt update -y
+                                sudo apt install tlpui -y; break;;
+                          No ) break;;
+                      esac
+                  done; break;;
             No ) break;;
         esac
     done
