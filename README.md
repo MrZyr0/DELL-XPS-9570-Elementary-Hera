@@ -53,6 +53,13 @@ The script must be executed 3 times:
    To do this, press **CTRL** + **ALT** + **F1** on the login screen, log in and run the script a second time.
 3. The third time, simply clean up your system. This is optional but recommended
 
+#### My installation
+For my installation, I didn't add universe and proposed;
+I didn't install TLP, codec and "high quality studio".
+I didn't disable SPECTRE/Meltdown grub patches and I disable fingerprint and touchscreen.
+
+For now my installation seems to be stable.
+
 ## How to switch from one graphic card to the other
 Because the Nvidia driver doesn't work perfectly, I recommend you to disable it when you don't need it. It will also save a little bit of battery.
 The post-installer add a small script to do it easilly.
