@@ -32,15 +32,15 @@ then
     echo -e "\n${INVERT}[STEP 1] - Update system${NC}"
     sudo cp *.bin /lib/firmware/i915/
     sudo apt update -y
+    sudo apt install software-properties-common -y
     sudo apt full-upgrade -y
 
 
-    echo -e "\n${INVERT}[STEP 2] - Add universe and proposed${NC}"
+    echo -e "\n${INVERT}[STEP 2] - Add universe${NC}"
     echo -e "\n${BLUE}Do you wish to add universe ? ?${NC}"
     select yn in "Yes" "No"; do
         case $yn in
-            Yes ) sudo apt install software-properties-common -y
-                  sudo add-apt-repository universe -y
+            Yes ) sudo add-apt-repository universe -y
                   sudo apt full-upgrade -y; break;;
             No ) break;;
         esac
