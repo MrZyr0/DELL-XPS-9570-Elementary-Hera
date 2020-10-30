@@ -1,9 +1,10 @@
-# DELL XPS 15 9570 Elementary OS 5 Hera post installation script
+# DELL XPS 15 9570 Elementary OS 5 Hera post installation
 
 ### Table of Contents
 1. [Post-install script](#post-install-script)
-2. [Switching from one graphic card to the other](#how-to-switch-from-one-graphic-card-to-the-other)
-3. [Troubleshooting](#troubleshooting)
+2. [My Installation](#my-installation)
+3. [Switching from one graphic card to the other](#how-to-switch-from-one-graphic-card-to-the-other)
+4. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -57,6 +58,9 @@ The script must be executed 3 times:
 For my installation, I didn't add universe and proposed;
 I didn't install TLP, codec and "high quality studio".
 I didn't disable SPECTRE/Meltdown grub patches and I disable fingerprint and touchscreen.
+
+> In the future, I'll note my stack and take note of all tweaks that I apply
+- I need to enable system tray : https://eos-techs.com/2020/05/19/howto-enable-system-tray-on-elementary-os/
 
 For now my installation seems to be stable.
 
